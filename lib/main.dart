@@ -1,66 +1,64 @@
+import 'package:app_builder/helper/hex_color.dart';
+import 'package:app_builder/models/config_model.dart';
+import 'package:app_builder/provider_states/app_state.dart';
+import 'package:app_builder/screens/home_screen.dart';
+import 'package:app_builder/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppState>(create: (_) => AppState()),
+      ],
+      child: Consumer<AppState>(
+        builder: (context, appState, child) {
+          return StreamBuilder<ConfigModel?>(
+              stream: appState.loadingConfigApp(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return MaterialApp(
+                      title: 'APP Builder',
+                      home: SplashScreen(),
+                      theme: buildTheme(snapshot.data, context),
+                      initialRoute: SplashScreen.id,
+                      debugShowCheckedModeBanner: false,
+                      routes: {
+                        SplashScreen.id: (context) => SplashScreen(),
+                        HomeScreen.id: (context) => HomeScreen(),
+                      });
+                } else {
+                  return Scaffold(
+                    body: Container(
+                        child: Center(child: CircularProgressIndicator())),
+                  );
+                }
+              });
+        },
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+  ThemeData buildTheme(ConfigModel? configModel, BuildContext context) {
+    return ThemeData.light().copyWith(
+      scaffoldBackgroundColor:
+          HexColor(configModel!.appColor!.pageBg.toString()),
+      textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: HexColor(configModel.appColor!.textColor.toString()),
+            displayColor: HexColor(configModel.appColor!.textColor.toString()),
+          ),
     );
   }
 }

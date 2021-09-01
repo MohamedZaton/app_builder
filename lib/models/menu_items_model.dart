@@ -1,13 +1,13 @@
 import 'package:app_builder/models/parameters_model.dart';
 
-class MenuItems {
+class MenuItemsModel {
   String? component;
   Parameters? parameters;
   String? title;
 
-  MenuItems({this.component, this.parameters, this.title});
+  MenuItemsModel({this.component, this.parameters, this.title});
 
-  MenuItems.fromJson(Map<String, dynamic> json) {
+  MenuItemsModel.fromJson(Map<String, dynamic> json) {
     component = json['component'];
     parameters = (json['parameters'] != null
         ? new Parameters.fromJson(json['parameters'])
