@@ -6,8 +6,8 @@ class Parameters {
   Parameters({this.apiName, this.userId, this.url});
 
   Parameters.fromJson(Map<String, dynamic> json) {
-    apiName = json['apiName'] ?? null;
-    userId = json['userId'] ?? null;
+    apiName = json['apiName'] ?? "";
+    userId = json['userId'] ?? 0;
     url = json['url'] ?? null;
   }
 

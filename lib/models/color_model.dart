@@ -1,13 +1,16 @@
+import 'package:app_builder/helper/hex_color.dart';
+import 'package:flutter/material.dart';
+
 class ColorModel {
-  String? pageBg;
-  String? headerBg;
-  String? headerText;
-  String? menuBg;
-  String? menuItemBGColor;
-  String? menuItemSelectedBgColor;
-  String? listTitle;
-  String? listItemBg;
-  String? textColor;
+  Color? pageBg;
+  Color? headerBg;
+  Color? headerText;
+  Color? menuBg;
+  Color? menuItemBGColor;
+  Color? menuItemSelectedBgColor;
+  Color? listTitle;
+  Color? listItemBg;
+  Color? textColor;
 
   ColorModel(
       {this.pageBg,
@@ -21,15 +24,16 @@ class ColorModel {
       this.textColor});
 
   ColorModel.fromJson(Map<String, dynamic> json) {
-    pageBg = json['pageBg'] ?? "#F0F0F0";
-    headerBg = json['headerBg'] ?? "#2e2e2e";
-    headerText = json['headerText'] ?? "#ffffff";
-    menuBg = json['menuBg'] ?? "#2e2e2e";
-    menuItemBGColor = json['menuItemBGColor'] ?? "#ffffff";
-    menuItemSelectedBgColor = json['menuItemSelectedBgColor'] ?? "#ffefe6";
-    listTitle = json['listTitle'] ?? "#2e2e2e";
-    listItemBg = json['listItemBg'] ?? "#ffffff";
-    textColor = json['textColor'] ?? "#2e2e2e";
+    pageBg = HexColor(json['pageBg'] ?? "#F0F0F0");
+    headerBg = HexColor(json['headerBg'] ?? "#2e2e2e");
+    headerText = HexColor(json['headerText']);
+    menuBg = HexColor(json['menuBg'] ?? "#2e2e2e");
+    menuItemBGColor = HexColor(json['menuItemBGColor'] ?? "#ffffff");
+    menuItemSelectedBgColor =
+        HexColor(json['menuItemSelectedBgColor'] ?? "#ffefe6");
+    listTitle = HexColor(json['listTitle'] ?? "#2e2e2e");
+    listItemBg = HexColor(json['listItemBg'] ?? "#ffffff");
+    textColor = HexColor(json['textColor'] ?? "#2e2e2e");
   }
 
   Map<String, dynamic> toJson() {

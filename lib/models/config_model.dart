@@ -12,7 +12,8 @@ class ConfigModel {
   ConfigModel.fromJson(Map<String, dynamic> json) {
     mainConfig = MainCgModel.fromJson(json['mainConfig']);
     appColor = ColorModel.fromJson(json['appColor']);
-    menuItems = List<MenuItemsModel>.from(json['menuItems']);
+    menuItems = List<MenuItemsModel>.from(
+        json['menuItems'].map((data) => MenuItemsModel.fromJson(data)));
   }
 
   Map<String, dynamic> toJson() {
